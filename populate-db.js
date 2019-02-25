@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { client } = require('./setup-db');
+const { dbClient } = require('./setup-db');
 
 const {
   CREATE_AREAS_TABLE_QUERY,
@@ -10,7 +10,7 @@ const {
 
 async function runQuery(query, name) {
   try {
-    await client.query(query);
+    await dbClient.query(query);
     console.log(`${name}: success`);
   } catch (error) {
     console.log(`${name}: error: ${error}`);
@@ -18,7 +18,7 @@ async function runQuery(query, name) {
 }
 
 const runQueries = async () => {
-  await client.connect();
+  await dbClient.connect();
   await runQuery(CREATE_AREAS_TABLE_QUERY, 'CREATE_AREAS_TABLE_QUERY');
   await runQuery(INSERT_AREAS_QUERY, 'INSERT_AREAS_QUERY');
   await runQuery(
@@ -29,7 +29,7 @@ const runQueries = async () => {
     INSERT_RESTAURANTS_TABLE_QUERY,
     'INSERT_RESTAURANTS_TABLE_QUERY'
   );
-  await client.end();
+  await dbClient.end();
 };
 
 runQueries();

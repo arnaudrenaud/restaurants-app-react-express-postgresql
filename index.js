@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const apiRouter = require('./api-router');
-const { client: dbClient } = require('./setup-db');
+const { dbClient } = require('./setup-db');
 
 dbClient.connect();
 

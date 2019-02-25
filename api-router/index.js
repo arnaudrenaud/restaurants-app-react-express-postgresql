@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { client: dbClient } = require('../setup-db');
+const { dbClient } = require('../setup-db');
 
 const router = Router()
   .get('/areas', async (req, res) => {
