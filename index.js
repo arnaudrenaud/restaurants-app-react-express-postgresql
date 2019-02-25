@@ -1,11 +1,15 @@
+require('dotenv').config();
 const express = require('express');
 const apiRouter = require('./api-router');
+const { client: dbClient } = require('./setup-db');
+
+dbClient.connect();
 
 const app = express();
 app.use('/api', apiRouter);
 
 app.listen(
-  3001,
+  process.env.PORT || 3001,
   err => {
     console.log('Error running express server.');
   },

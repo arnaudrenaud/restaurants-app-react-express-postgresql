@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Client } = require('pg');
+const { client } = require('./setup-db');
 
 const {
   CREATE_AREAS_TABLE_QUERY,
@@ -7,13 +7,6 @@ const {
   CREATE_RESTAURANTS_TABLE_QUERY,
   INSERT_RESTAURANTS_TABLE_QUERY,
 } = require('./sql-queries');
-
-const client = new Client({
-  host: process.env.DB_HOST,
-  database: process.env.DB_DATABASE,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-});
 
 async function runQuery(query, name) {
   try {
