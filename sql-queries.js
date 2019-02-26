@@ -1,3 +1,9 @@
+const restaurants = require('./restaurants-cleaned.json');
+
+function getEscapedString(string) {
+  return (string || '').replace(/\'/g, "''");
+}
+
 const CREATE_AREAS_TABLE_QUERY = `CREATE TABLE IF NOT EXISTS areas (
   id UUID,
   name TEXT NOT NULL,
@@ -6,113 +12,16 @@ const CREATE_AREAS_TABLE_QUERY = `CREATE TABLE IF NOT EXISTS areas (
   UNIQUE(name)
 );`;
 
+// INSERT_AREAS_QUERY will generate a request in the form:
+// INSERT INTO areas (id, name) VALUES
+//   (uuid_generate_v4(), 'Belleville'),
+//   (uuid_generate_v4(), 'Charonne'),
+//   ...
 const INSERT_AREAS_QUERY = `
 INSERT INTO areas (id, name) VALUES
-  (uuid_generate_v4(),'Belleville'),
-  (uuid_generate_v4(),'Charonne'),
-  (uuid_generate_v4(),'SoPi (South Pigalle)'),
-  (uuid_generate_v4(),'Roquette'),
-  (uuid_generate_v4(),'2e arrondissement'),
-  (uuid_generate_v4(),'Canal Saint-Martin'),
-  (uuid_generate_v4(),'Folie-Méricourt'),
-  (uuid_generate_v4(),'Mairie du 18e'),
-  (uuid_generate_v4(),'Quartier latin'),
-  (uuid_generate_v4(),'Le Marais'),
-  (uuid_generate_v4(),'Les Halles'),
-  (uuid_generate_v4(),'8e arrondissement'),
-  (uuid_generate_v4(),'Poissonnière'),
-  (uuid_generate_v4(),'Saint-Georges'),
-  (uuid_generate_v4(),'Grands Boulevards'),
-  (uuid_generate_v4(),'Arts et Métiers'),
-  (uuid_generate_v4(),'Pigalle'),
-  (uuid_generate_v4(),'Chaussée-d‘Antin'),
-  (uuid_generate_v4(),'13e arrondissement'),
-  (uuid_generate_v4(),'Montmartre'),
-  (uuid_generate_v4(),'Où'),
-  (uuid_generate_v4(),'Strasbourg-Saint-Denis'),
-  (uuid_generate_v4(),'Faubourg Montmartre'),
-  (uuid_generate_v4(),'1er arrondissement'),
-  (uuid_generate_v4(),'17e arrondissement'),
-  (uuid_generate_v4(),'12e arrondissement'),
-  (uuid_generate_v4(),'3e arrondissement'),
-  (uuid_generate_v4(),'5e arrondissement'),
-  (uuid_generate_v4(),'16e arrondissement'),
-  (uuid_generate_v4(),'Jaurès'),
-  (uuid_generate_v4(),'Réaumur'),
-  (uuid_generate_v4(),'Necker'),
-  (uuid_generate_v4(),'Saint-Ambroise'),
-  (uuid_generate_v4(),'Ecole Militaire'),
-  (uuid_generate_v4(),'4e arrondissement'),
-  (uuid_generate_v4(),'6e arrondissement'),
-  (uuid_generate_v4(),'Ternes'),
-  (uuid_generate_v4(),'Goutte d‘Or'),
-  (uuid_generate_v4(),'20e arrondissement'),
-  (uuid_generate_v4(),'Invalides'),
-  (uuid_generate_v4(),'9e arrondissement'),
-  (uuid_generate_v4(),'La Madeleine'),
-  (uuid_generate_v4(),'Champs-Elysées'),
-  (uuid_generate_v4(),'La Villette'),
-  (uuid_generate_v4(),'Butte-aux-Cailles'),
-  (uuid_generate_v4(),'Bel-Air'),
-  (uuid_generate_v4(),'Odéon'),
-  (uuid_generate_v4(),'Ménilmontant'),
-  (uuid_generate_v4(),'15e arrondissement'),
-  (uuid_generate_v4(),'Opéra'),
-  (uuid_generate_v4(),'7e arrondissement'),
-  (uuid_generate_v4(),'11e arrondissement'),
-  (uuid_generate_v4(),'Abbesses'),
-  (uuid_generate_v4(),'Chaillot'),
-  (uuid_generate_v4(),'Quartier de la Gare'),
-  (uuid_generate_v4(),'Gare du Nord'),
-  (uuid_generate_v4(),'Rennes-Sèvres'),
-  (uuid_generate_v4(),'10e arrondissement'),
-  (uuid_generate_v4(),'Pereire'),
-  (uuid_generate_v4(),'Plaisance'),
-  (uuid_generate_v4(),'Javel'),
-  (uuid_generate_v4(),'Louvre'),
-  (uuid_generate_v4(),'Paris et sa banlieue'),
-  (uuid_generate_v4(),'15 arrondissement'),
-  (uuid_generate_v4(),'Saint-Michel'),
-  (uuid_generate_v4(),'Place Vendôme'),
-  (uuid_generate_v4(),'Picpus'),
-  (uuid_generate_v4(),'Bastille'),
-  (uuid_generate_v4(),'Gare de l‘Est'),
-  (uuid_generate_v4(),'République'),
-  (uuid_generate_v4(),'Jussieu'),
-  (uuid_generate_v4(),'Bercy'),
-  (uuid_generate_v4(),'Tour Eiffel'),
-  (uuid_generate_v4(),'Ile Saint-Louis'),
-  (uuid_generate_v4(),'Austerlitz'),
-  (uuid_generate_v4(),'Batignolles'),
-  (uuid_generate_v4(),'19e arrondissement'),
-  (uuid_generate_v4(),'Grenelle'),
-  (uuid_generate_v4(),'Bourse'),
-  (uuid_generate_v4(),'Saint-Germain-des-Prés'),
-  (uuid_generate_v4(),'Buttes-Chaumont'),
-  (uuid_generate_v4(),'Montparnasse'),
-  (uuid_generate_v4(),'18e arrondissement'),
-  (uuid_generate_v4(),'Ile aux cygnes'),
-  (uuid_generate_v4(),'Triangle d‘Or'),
-  (uuid_generate_v4(),'Monceau'),
-  (uuid_generate_v4(),'La Chapelle'),
-  (uuid_generate_v4(),'Sentier'),
-  (uuid_generate_v4(),'Place d‘Italie'),
-  (uuid_generate_v4(),'Epinettes'),
-  (uuid_generate_v4(),'Europe'),
-  (uuid_generate_v4(),'Nation'),
-  (uuid_generate_v4(),'Saint-Blaise'),
-  (uuid_generate_v4(),'Alésia'),
-  (uuid_generate_v4(),'Denfert-Rochereau'),
-  (uuid_generate_v4(),'Châtelet'),
-  (uuid_generate_v4(),'14e arrondissement'),
-  (uuid_generate_v4(),'Ile de la Cité'),
-  (uuid_generate_v4(),'Père-Lachaise'),
-  (uuid_generate_v4(),'Saint-Lazare'),
-  (uuid_generate_v4(),'Courbevoie'),
-  (uuid_generate_v4(),'Place de Clichy'),
-  (uuid_generate_v4(),'Place des Fêtes'),
-  (uuid_generate_v4(),'Paris'),
-  (uuid_generate_v4(),'Château Rouge');
+  ${Array.from(new Set(restaurants.map(restaurant => restaurant.area)))
+    .map(area => `(uuid_generate_v4(), '${getEscapedString(area)}')`)
+    .join(',')}
 `;
 
 const CREATE_RESTAURANTS_TABLE_QUERY = `CREATE TABLE IF NOT EXISTS restaurants (
@@ -139,12 +48,6 @@ const CREATE_RESTAURANTS_TABLE_QUERY = `CREATE TABLE IF NOT EXISTS restaurants (
   UNIQUE(timeout_id),
   FOREIGN KEY (area_id) REFERENCES areas(id)
 );`;
-
-const restaurants = require('./restaurants-cleaned.json');
-
-function getEscapedString(string) {
-  return (string || '').replace(/\'/g, "''");
-}
 
 const INSERT_RESTAURANTS_TABLE_QUERY = `INSERT INTO restaurants (
   id,
