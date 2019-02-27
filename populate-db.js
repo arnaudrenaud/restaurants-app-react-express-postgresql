@@ -17,9 +17,6 @@ async function runQuery(query, name) {
   }
 }
 
-console.log(INSERT_AREAS_QUERY);
-console.log(INSERT_RESTAURANTS_TABLE_QUERY);
-
 const runQueries = async () => {
   await dbClient.connect();
   await runQuery(CREATE_AREAS_TABLE_QUERY, 'CREATE_AREAS_TABLE_QUERY');
