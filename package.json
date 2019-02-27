@@ -15,6 +15,7 @@
   "scripts": {
     "start": "node index",
     "start:watch": "nodemon index",
-    "populate-db": "node populate-db"
+    "populate-db": "node populate-db",
+    "heroku-postbuild": "cd client && npm run build"
   }
 }
