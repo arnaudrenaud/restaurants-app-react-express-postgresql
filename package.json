@@ -16,6 +16,6 @@
     "start": "node index",
     "start:watch": "nodemon index",
     "populate-db": "node populate-db",
-    "heroku-postbuild": "cd client && npm i && npm run build"
+    "heroku-postbuild": "cd client && yarn && yarn build"
   }
 }
