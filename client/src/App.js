@@ -1,12 +1,14 @@
 import React, { Component, Fragment } from 'react';
-import { Icon, Search } from 'semantic-ui-react';
+import { Route, Switch } from 'react-router-dom';
 
+import Home from './Home';
+import Favorites from './Favorites';
+import { StyledIcon, MainContentContainer } from './styled-components/common';
 import {
   NavBarContainer,
   NavBar,
-  MainContentContainer,
-} from './styled-components';
-
+  StyledNavLink,
+} from './styled-components/nav';
 import 'semantic-ui-css/semantic.min.css';
 
 class App extends Component {
@@ -26,21 +28,11 @@ class App extends Component {
     this.setState({ areaSearchValue: event.target.value });
   };
 
-  getAreasMatchingSearch() {
-    return this.state.areas
-      .filter(area =>
-        area.name
-          .toLowerCase()
-          .startsWith(this.state.areaSearchValue.toLowerCase())
-      )
-      .map(area => ({
-        id: area.id,
-        title: area.name,
-      }));
-  }
-
   handleResultSelect = (event, data) => {
-    this.setState({ selectedAreaId: data.result.id });
+    this.setState({
+      selectedAreaId: data.result.id,
+      areaSearchValue: data.result.title,
+    });
   };
 
   render() {
@@ -48,23 +40,33 @@ class App extends Component {
       <Fragment>
         <NavBarContainer>
           <NavBar>
-            <a>
-              <Icon name="building" color="grey" />
+            <StyledNavLink exact to="/" activeClassName="NavLink--active">
+              <StyledIcon name="building" color="grey" />
               Quartiers
-            </a>
-            <a>
-              <Icon name="star" color="grey" />
+            </StyledNavLink>
+            <StyledNavLink to="/mes-favoris" activeClassName="NavLink--active">
+              <StyledIcon name="star" color="grey" />
               Mes favoris
-            </a>
+            </StyledNavLink>
           </NavBar>
         </NavBarContainer>
         <MainContentContainer>
-          <Search
-            onSearchChange={this.handleSearchChange}
-            results={this.getAreasMatchingSearch()}
-            onResultSelect={this.handleResultSelect}
-          />
-          <p>Selected area: {this.state.selectedAreaId}</p>
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={() => (
+                <Home
+                  areas={this.state.areas}
+                  areaSearchValue={this.state.areaSearchValue}
+                  selectedAreaId={this.state.selectedAreaId}
+                  onSearchChange={this.handleSearchChange}
+                  onResultSelect={this.handleResultSelect}
+                />
+              )}
+            />
+            <Route path="/mes-favoris" component={Favorites} />
+          </Switch>
         </MainContentContainer>
       </Fragment>
     );
