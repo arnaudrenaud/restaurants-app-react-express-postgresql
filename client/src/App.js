@@ -1,5 +1,12 @@
-import React, { Component } from 'react';
-import { Search } from 'semantic-ui-react';
+import React, { Component, Fragment } from 'react';
+import { Icon, Search } from 'semantic-ui-react';
+
+import {
+  NavBarContainer,
+  NavBar,
+  MainContentContainer,
+} from './styled-components';
+
 import 'semantic-ui-css/semantic.min.css';
 
 class App extends Component {
@@ -38,14 +45,28 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <Search
-          onSearchChange={this.handleSearchChange}
-          results={this.getAreasMatchingSearch()}
-          onResultSelect={this.handleResultSelect}
-        />
-        <p>Selected area: {this.state.selectedAreaId}</p>
-      </div>
+      <Fragment>
+        <NavBarContainer>
+          <NavBar>
+            <a>
+              <Icon name="building" color="grey" />
+              Quartiers
+            </a>
+            <a>
+              <Icon name="star" color="grey" />
+              Mes favoris
+            </a>
+          </NavBar>
+        </NavBarContainer>
+        <MainContentContainer>
+          <Search
+            onSearchChange={this.handleSearchChange}
+            results={this.getAreasMatchingSearch()}
+            onResultSelect={this.handleResultSelect}
+          />
+          <p>Selected area: {this.state.selectedAreaId}</p>
+        </MainContentContainer>
+      </Fragment>
     );
   }
 }
