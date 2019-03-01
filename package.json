@@ -13,9 +13,10 @@
     "nodemon": "^1.18.10"
   },
   "scripts": {
+    "postinstall": "cd client && yarn",
     "start": "node index",
     "start:watch": "nodemon index",
     "populate-db": "node populate-db",
-    "heroku-postbuild": "cd client && yarn && yarn build"
+    "heroku-postbuild": "cd client && yarn build"
   }
 }
