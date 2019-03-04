@@ -15,7 +15,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 Adapt the following configuration to the database and paste it into a `.env` file:
 
 ```
-DATABASE_URL=postgres://restaurants_app_user:password@localhost/restaurants_app
+DATABASE_URL=postgres://<database-user>:<user-password>@<host>/<database-name>
 ```
 
 ### Set up the project development environment
